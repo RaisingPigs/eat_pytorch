@@ -21,7 +21,7 @@ class Config():
     # 训练
     BATCH_SIZE = 64
     LR = 0.01
-    EPOCH = 30
+    EPOCH = 15
     N_CLASS = 10
 
     # early_stopping
@@ -86,13 +86,17 @@ class ClassifyNet(nn.Module):
         self.net = nn.Sequential(
             # 卷积核为5, 每次卷积高宽会减4, 所以padding=2就能让宽高增加4, 卷积后的tensor高宽仍为32
             nn.Conv2d(3, 32, (5, 5), padding=2),
+            nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Conv2d(32, 32, (5, 5), padding=2),
+            nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Conv2d(32, 64, (5, 5), padding=2),
+            nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Flatten(),
             nn.Linear(1024, 64),
+            nn.ReLU(),
             nn.Linear(64, 10)
         )
 
