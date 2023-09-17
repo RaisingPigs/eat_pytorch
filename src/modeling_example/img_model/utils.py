@@ -28,7 +28,7 @@ class Config():
     NOW = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     CHECKPOINT_FILEPATH = CHECKPOINT_DIR + f'/{NOW}.pth'
     MONITOR = 'val_acc'
-    PATIENCE = 10
+    PATIENCE = 5
     MODE = 'max'
 
 
@@ -86,17 +86,13 @@ class ClassifyNet(nn.Module):
         self.net = nn.Sequential(
             # 卷积核为5, 每次卷积高宽会减4, 所以padding=2就能让宽高增加4, 卷积后的tensor高宽仍为32
             nn.Conv2d(3, 32, (5, 5), padding=2),
-            nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Conv2d(32, 32, (5, 5), padding=2),
-            nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Conv2d(32, 64, (5, 5), padding=2),
-            nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Flatten(),
             nn.Linear(1024, 64),
-            nn.ReLU(),
             nn.Linear(64, 10)
         )
 
